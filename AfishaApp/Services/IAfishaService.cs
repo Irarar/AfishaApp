@@ -12,11 +12,20 @@ namespace AfishaApp.Services
     {
         Task<IEnumerable<Afisha>> GetAllAfishasAsync();
         Task<Afisha> GetAfishaAsync(Guid afishaId);
+        Task<Guid> EditAfishaAsync(Afisha afisha) ;
+        Task CreateAfishaSync(Afisha afisha);
+        Task DeleteAfishaAsync(Guid afishaId);
     }
 
     public class AfishaService : IAfishaService
     {
         private readonly AppDbContext _db;
+
+        public AfishaService(AppDbContext db)
+        {
+            _db = db;
+        }
+
         public async Task<IEnumerable<Afisha>> GetAllAfishasAsync()
         {
             return await _db.Afishas
@@ -30,6 +39,25 @@ namespace AfishaApp.Services
             return await _db.Afishas
                 .Include(c => c.Category)
                 .FirstOrDefaultAsync(a => a.Id == afishaId);
+        }
+
+        public async Task<Guid> EditAfishaAsync(Afisha afisha)
+        {
+             _db.Update(afisha);
+            await _db.SaveChangesAsync();
+            return afisha.Id;
+        }
+
+        public async Task CreateAfishaSync(Afisha afisha)
+        {
+            await _db.AddAsync(afisha);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeleteAfishaAsync(Guid afishaId)
+        {
+            _db.Remove(await _db.Afishas.FirstOrDefaultAsync(a => a.Id == afishaId));
+            await _db.SaveChangesAsync();
         }
     }
 }

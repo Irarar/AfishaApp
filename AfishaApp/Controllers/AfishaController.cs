@@ -30,7 +30,7 @@ namespace AfishaApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Afisha afisha)
         {
-            await _afishaService.CreateAfishaAsync(afisha);
+            await _afishaService.CreateAfishaSync(afisha);
             return RedirectToAction("Details");
         }
 

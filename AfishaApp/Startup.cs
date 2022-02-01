@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AfishaApp.Data;
+using AfishaApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace AfishaApp
@@ -27,6 +28,8 @@ namespace AfishaApp
         {
             services.AddDbContext<AppDbContext>(option => 
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IAfishaService, AfishaService>();
 
             services.AddControllersWithViews();
         }
