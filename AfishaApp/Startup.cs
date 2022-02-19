@@ -30,6 +30,7 @@ namespace AfishaApp
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IAfishaService, AfishaService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddControllersWithViews();
         }
