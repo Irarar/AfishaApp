@@ -13,7 +13,7 @@ namespace AfishaApp.Services
         Task<IEnumerable<Afisha>> GetAllAfishasAsync();
         Task<Afisha> GetAfishaAsync(Guid afishaId);
         Task<Guid> EditAfishaAsync(Afisha afisha) ;
-        Task CreateAfishaSync(Afisha afisha);
+        Task<Guid> CreateAfishaSync(Afisha afisha);
         Task DeleteAfishaAsync(Guid afishaId);
     }
 
@@ -48,10 +48,11 @@ namespace AfishaApp.Services
             return afisha.Id;
         }
 
-        public async Task CreateAfishaSync(Afisha afisha)
+        public async Task<Guid> CreateAfishaSync(Afisha afisha)
         {
             await _db.AddAsync(afisha);
             await _db.SaveChangesAsync();
+            return afisha.Id;
         }
 
         public async Task DeleteAfishaAsync(Guid afishaId)

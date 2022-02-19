@@ -31,6 +31,17 @@ namespace AfishaApp
 
             services.AddScoped<IAfishaService, AfishaService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IHomeService, HomeService>();
+
+
+            services.AddDistributedMemoryCache();
+            services.AddHttpContextAccessor();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddControllersWithViews();
         }
@@ -53,7 +64,9 @@ namespace AfishaApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
