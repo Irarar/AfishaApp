@@ -13,7 +13,7 @@ namespace AfishaApp.Models
         public string Genre { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
         public  Category Category { get; set; }
     }
 }

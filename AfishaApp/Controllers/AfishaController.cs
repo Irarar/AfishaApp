@@ -31,7 +31,8 @@ namespace AfishaApp.Controllers
 
         public async Task<IActionResult> Create(Guid afishaId)
         {
-            ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategoryAsync(), "Id","Name");
+            ViewBag.CategoryId = 
+                new SelectList(await _categoryService.GetAllCategoryAsync(), "Id","Name");
             return View(await _afishaService.GetAfishaAsync(afishaId));
         }
 
@@ -58,14 +59,45 @@ namespace AfishaApp.Controllers
 
         public async Task<IActionResult> Edit(Guid afishaId)
         {
+            ViewBag.CategoryId =
+                new SelectList(await _categoryService.GetAllCategoryAsync(), "Id", "Name");
             return View(await _afishaService.GetAfishaAsync(afishaId));
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Afisha afisha)
         {
+            var files = HttpContext.Request.Form.Files;
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var objFromDb = _afishaService.GetAfishaImageAsync(afisha);
+
+            if (files.Count > 0)
+            {
+                string upload = webRootPath + WebConst.ImagePath;
+                string FileName = Guid.NewGuid().ToString();
+                string extension = Path.GetExtension(files[0].FileName);
+
+
+                var oldFile = Path.Combine(upload, objFromDb.Image);
+
+                if (System.IO.File.Exists(oldFile))
+                {
+                    System.IO.File.Delete(oldFile);
+                }
+
+                using (var fileStream = new FileStream(Path.Combine(upload, FileName + extension), FileMode.Create))
+                {
+                    await files[0].CopyToAsync(fileStream);
+                }
+                afisha.Image = FileName + extension;
+            }
+            else
+            {
+                afisha.Image = objFromDb.Image;
+            }
+
             var afishaId = await _afishaService.EditAfishaAsync(afisha);
-            return RedirectToAction("Details", new {afishaId});
+            return RedirectToAction("Index", new { afishaId });
         }
 
 

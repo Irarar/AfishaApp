@@ -11,6 +11,7 @@ namespace AfishaApp.Services
     public interface IAfishaService
     {
         Task<IEnumerable<Afisha>> GetAllAfishasAsync();
+        Afisha GetAfishaImageAsync(Afisha afisha);
         Task<Afisha> GetAfishaAsync(Guid afishaId);
         Task<Guid> EditAfishaAsync(Afisha afisha) ;
         Task<Guid> CreateAfishaSync(Afisha afisha);
@@ -34,10 +35,16 @@ namespace AfishaApp.Services
                 .ToListAsync();
         }
 
+        public Afisha GetAfishaImageAsync(Afisha afisha)
+        {
+            return _db.Afishas.AsNoTracking().FirstOrDefault(a => a.Id == afisha.Id);
+        }
+
         public async Task<Afisha> GetAfishaAsync(Guid afishaId)
         {
             return await _db.Afishas
                 .Include(c => c.Category)
+                .ThenInclude(c => c.Country)
                 .FirstOrDefaultAsync(a => a.Id == afishaId);
         }
 

@@ -3,11 +3,11 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Product List</h2>
+            <h2 class="text-primary">Afisha List</h2>
         </div>
         <div class="col-6 text-right">
             <a class="btn btn-primary" asp-controller="Afisha" asp-action="Create">
-                <i class="fas fa-plus"></i> &nbsp; Create New Product
+                <i class="fas fa-plus"></i> &nbsp; Create New Afisha
             </a>
         </div>
 
@@ -34,10 +34,10 @@
 
                 <div class="p-3 border bg-light col-5 col-md-2">
                     <div class="w-75 btn-group" role="group">
-                        <a class="btn btn-primary mx-2" asp-route-productId="@obj.Id" asp-controller="Afisha" asp-action="Edit">
+                        <a class="btn btn-primary mx-2" asp-route-afishaId="@obj.Id" asp-controller="Afisha" asp-action="Edit">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger mx-2" asp-route-productId="@obj.Id" asp-controller="Afisha" asp-action="DeleteG">
+                        <a class="btn btn-danger mx-2" asp-route-afishaId="@obj.Id" asp-controller="Afisha" asp-action="Details">
                             <i class="fas fa-trash"></i>
                         </a>
 

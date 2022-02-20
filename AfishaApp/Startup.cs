@@ -32,6 +32,7 @@ namespace AfishaApp
             services.AddScoped<IAfishaService, AfishaService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<ICountyService, CountryService>();
 
 
             services.AddDistributedMemoryCache();

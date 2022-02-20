@@ -29,12 +29,12 @@ namespace AfishaApp.Services
 
         public async Task<IEnumerable<Category>> GetAllCategoryAsync()
         {
-            return await _db.Categories.ToListAsync();
+            return await _db.Categories.Include(c => c.Country).ToListAsync();
         }
 
         public async Task<Category> GetCategoryAsync(Guid categoryId)
         {
-            return await _db.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+            return await _db.Categories.Include(c => c.Country).FirstOrDefaultAsync(c => c.Id == categoryId);
         }
 
         public async Task CreateCategoryAsync(Category category)
