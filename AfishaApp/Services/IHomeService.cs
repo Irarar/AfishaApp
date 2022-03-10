@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AfishaApp.Data;
+using AfishaApp.Models;
 using AfishaApp.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ namespace AfishaApp.Services
     public interface IHomeService
     {
         Task<HomeVM> GetProductWithCategoryAsync();
-        DetailsVM DetailsAsync(Guid id);
+        Task<Guid> UpdateTicketAsync(Afisha afisha);
     }
 
     public class HomeService : IHomeService
@@ -32,16 +33,13 @@ namespace AfishaApp.Services
             };
         }
 
-        public DetailsVM DetailsAsync(Guid id)
+
+        public async Task<Guid> UpdateTicketAsync(Afisha afisha)
         {
-            return new DetailsVM
-            {
-                Afisha = _db.Afishas
-                    .Include(u => u.Category)
-                    .Where(u => u.Id == id)
-                    .FirstOrDefault(u => u.Id == id),
-                ExistsInCart = false
-            };
+            afisha.CountTicket--;
+            _db.Afishas.Update(afisha);
+            await _db.SaveChangesAsync();
+            return afisha.Id;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AfishaApp.Data;
 using AfishaApp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AfishaApp
@@ -29,6 +30,11 @@ namespace AfishaApp
             services.AddDbContext<AppDbContext>(option => 
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddDefaultTokenProviders().AddDefaultUI()
+                .AddEntityFrameworkStores<AppDbContext>();
+
+
             services.AddScoped<IAfishaService, AfishaService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IHomeService, HomeService>();
@@ -44,7 +50,7 @@ namespace AfishaApp
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +77,7 @@ namespace AfishaApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

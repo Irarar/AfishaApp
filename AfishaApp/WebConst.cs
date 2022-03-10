@@ -10,6 +10,9 @@ namespace AfishaApp
         public const string ImagePath = @"\images\img.afisha\";
         public const string SessionCart = "ShoppingCartSession";
 
-   
+        public const string AdminRole = "Admin";
+        public const string CustomerRole = "Customer";
+
+        public const string EmailAdmin = "admin@mail.ru";
     }
 }

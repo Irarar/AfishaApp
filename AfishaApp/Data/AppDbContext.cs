@@ -16,7 +16,7 @@ namespace AfishaApp.Data
         public DbSet<Afisha> Afishas { get; set; } 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Country { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }
